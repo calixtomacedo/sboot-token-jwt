@@ -26,11 +26,11 @@ public class TokenJwtService {
         try {
             Algorithm algorithm = Algorithm.HMAC512(secret);
             return JWT.create()
-                    .withIssuer("sboot-jwt-login")
+                    .withIssuer(applicationName)
                     .withSubject(user.getEmail())
                     .withExpiresAt(generateExpirationTime())
                     .sign(algorithm);
-        }catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             throw new RuntimeException("Error when try generate token jwt", exception);
         }
     }
@@ -50,7 +50,7 @@ public class TokenJwtService {
     }
 
     private Instant generateExpirationTime() {
-        return LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(15).toInstant(ZoneOffset.UTC);
+        return LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00"));
     }
 
 }

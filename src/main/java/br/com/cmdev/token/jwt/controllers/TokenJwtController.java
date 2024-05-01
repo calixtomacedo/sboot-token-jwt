@@ -12,12 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @RestController
 @RequestMapping("/cmdev")
@@ -33,7 +31,12 @@ public class TokenJwtController {
         this.tokenJwtService = tokenJwtService;
     }
 
-    @PostMapping("/authenticate")
+    @GetMapping("/home")
+    public ResponseEntity home() {
+        return ResponseEntity.ok(" Sucesso -03:00: " + LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00")));
+    }
+
+    @PostMapping("/token/generate")
     public ResponseEntity authenticate(@RequestBody @Valid UserRequest request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -41,7 +44,7 @@ public class TokenJwtController {
         return ResponseEntity.ok(new UserResponse(tokenJwt));
     }
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public ResponseEntity register(@RequestBody @Valid RegisterRequest request) {
         if (this.repository.findByEmail(request.email()) != null) {
             return ResponseEntity.badRequest().build();
