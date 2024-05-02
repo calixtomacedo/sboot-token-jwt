@@ -4,7 +4,7 @@ FROM openjdk:21-jdk-oracle
 VOLUME /apps
 
 # Copy all files that end with letter .jar to folder above
-COPY target/*.jar /apps/loginApp.jar
+COPY target/*.jar /apps/tokenJwtApp.jar
 
 # Run the command to start the application java
-ENTRYPOINT ["java", "-jar", "/apps/loginApp.jar"]
+ENTRYPOINT ["java", "-jar", "/apps/tokenJwtApp.jar"]
