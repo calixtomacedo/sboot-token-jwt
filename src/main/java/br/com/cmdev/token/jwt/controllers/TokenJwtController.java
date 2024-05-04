@@ -3,7 +3,6 @@ package br.com.cmdev.token.jwt.controllers;
 import br.com.cmdev.token.jwt.models.User;
 import br.com.cmdev.token.jwt.models.dtos.RegisterRequest;
 import br.com.cmdev.token.jwt.models.dtos.TokenRequest;
-import br.com.cmdev.token.jwt.models.dtos.TokenResponse;
 import br.com.cmdev.token.jwt.repositories.UserRepository;
 import br.com.cmdev.token.jwt.security.TokenJwtService;
 import jakarta.validation.Valid;
@@ -40,8 +39,8 @@ public class TokenJwtController {
     public ResponseEntity generateToken(@RequestBody @Valid TokenRequest request) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        var tokenJwt = this.tokenJwtService.generateTokenJwt((User) auth.getPrincipal());
-        return ResponseEntity.ok(new TokenResponse(tokenJwt));
+        var tokenResponse = this.tokenJwtService.generateTokenJwt((User) auth.getPrincipal());
+        return ResponseEntity.ok(tokenResponse);
     }
 
     @PostMapping("/user/register")
