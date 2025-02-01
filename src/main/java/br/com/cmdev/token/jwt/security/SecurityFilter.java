@@ -1,7 +1,6 @@
 package br.com.cmdev.token.jwt.security;
 
 import br.com.cmdev.token.jwt.repositories.UserRepository;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

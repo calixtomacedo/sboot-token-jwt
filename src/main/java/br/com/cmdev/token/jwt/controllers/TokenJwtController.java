@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -32,7 +33,7 @@ public class TokenJwtController {
 
     @GetMapping("/home")
     public ResponseEntity home() {
-        return ResponseEntity.ok(" Sucesso -03:00: " + LocalDateTime.now().plusMinutes(15).toInstant(ZoneOffset.of("-03:00")));
+        return ResponseEntity.ok(" Sucesso: " + LocalDateTime.now().plusMinutes(10).toInstant(ZoneOffset.systemDefault().getRules().getOffset(Instant.now())));
     }
 
     @PostMapping("/token/generate")

@@ -26,17 +26,16 @@ public class SecurityConfigurations {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/cmdev/token/generate").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cmdev/user/register").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Força a leitura do filter securityFilter antes do UsernamePasswordAuthenticationFilter
+                .build();
     }
 
     @Bean
